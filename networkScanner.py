@@ -1,17 +1,20 @@
 import scapy.all as scapy
 import socket
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QBoxLayout, QFormLayout, QLabel, QLineEdit, QVBoxLayout, QWidget, QComboBox, QPushButton
+from PyQt5.QtWidgets import QBoxLayout, QFormLayout, QLabel, QLineEdit, QScrollArea, QVBoxLayout, QWidget, QComboBox, QPushButton
 
 class ScapyNetworkScannerWidget(QWidget):
-    def __init__(self):
+    def __init__(self, windowsManager):
+        self.windowsManager = windowsManager
         super().__init__()
 
+        self.adjustSize()
+
         self.setWindowTitle("Network Scanner")
+
         layout = QVBoxLayout(self)
 
         layout.addWidget(self.addScanForm())
-        layout.addWidget(self.addResult())
 
         self.setLayout(layout)
     
@@ -32,16 +35,9 @@ class ScapyNetworkScannerWidget(QWidget):
 
         widget.setLayout(layout)
         return (widget)
-    
-    def addResult(self):
-        widget = QWidget()
-        self.result = QVBoxLayout(widget)
 
-        widget.setLayout(self.result)
-        return (widget)
-    
     def networkScan(self):
-        print(socket.gethostbyaddr("192.168.1.1"))
+        result = []
 
         request = scapy.ARP() 
         request.pdst = self.ip.text() + '/' + self.range.currentText()
@@ -52,5 +48,6 @@ class ScapyNetworkScannerWidget(QWidget):
         request_broadcast = broadcast / request 
         clients = scapy.srp(request_broadcast, timeout = 1)[0] 
         for element in clients: 
-            self.result.addWidget(QLabel(element[1].psrc))
-            print(element[1].psrc + "      " + element[1].hwsrc) 
+            res = (element[1]. psrc, socket.gethostbyaddr(element[1].psrc)[0], element[1].hwsrc)
+            result.append(res)
+        self.windowsManager["Network List"].populate(result)

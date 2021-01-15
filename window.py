@@ -1,7 +1,8 @@
 import sys
-from PyQt5.QtWidgets import QMainWindow, QApplication, QMdiArea, QLabel, QMdiSubWindow
-from PyQt5.QtGui import QIcon
+from PyQt5.QtWidgets import QMainWindow, QApplication, QMdiArea, QLabel, QMdiSubWindow, QVBoxLayout
+from PyQt5.QtGui import QIcon, QValidator
 from PyQt5.QtCore import Qt
+from windowsManager import ScapyWindowsManager
 from toolbar import ScapyToolbar
 from menuBar import ScapyMenuBar
 
@@ -11,7 +12,11 @@ class ScapyWindow(QMainWindow):
     def __init__(self, app):
         super(ScapyWindow, self).__init__()
         self.mdiAera = QMdiArea()
+        self.mdiAera.setLayout(QVBoxLayout(self.mdiAera))
         self.app = app
+        self.windowContainer = {}
+
+        self.windowsManager = ScapyWindowsManager(self)
         
         self.initWindow()
         self.setMenuBar(ScapyMenuBar(self))
