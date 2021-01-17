@@ -15,10 +15,10 @@ class ScapyWindow(QMainWindow):
         self.mdiAera.setLayout(QVBoxLayout(self.mdiAera))
         self.app = app
         self.windowContainer = {}
-
         self.windowsManager = ScapyWindowsManager(self)
         
         self.initWindow()
+
         self.setMenuBar(ScapyMenuBar(self))
         self.addToolBar(ScapyToolbar(self))
 

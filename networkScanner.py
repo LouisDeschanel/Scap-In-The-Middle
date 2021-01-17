@@ -26,7 +26,7 @@ class ScapyNetworkScannerWidget(QWidget):
         layout.addRow(QLabel("IP"), self.ip)
 
         self.range = QComboBox()
-        self.range.addItems(["8", "16", "24"])
+        self.range.addItems(["24", "16", "8"])
         layout.addRow(QLabel("Range"),  self.range)
 
         button = QPushButton("Scan")
@@ -46,7 +46,7 @@ class ScapyNetworkScannerWidget(QWidget):
         broadcast.dst = 'ff:ff:ff:ff:ff:ff'
   
         request_broadcast = broadcast / request 
-        clients = scapy.srp(request_broadcast, timeout = 1)[0] 
+        clients = scapy.srp(request_broadcast, timeout = 5)[0] 
         for element in clients: 
             res = (element[1]. psrc, socket.gethostbyaddr(element[1].psrc)[0], element[1].hwsrc)
             result.append(res)

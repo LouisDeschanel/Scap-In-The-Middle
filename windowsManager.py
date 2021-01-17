@@ -1,3 +1,4 @@
+from spoofer import ScapySpooferWidget
 from networkList import ScapyNetworkListWidget
 from networkScanner import ScapyNetworkScannerWidget
 import sys
@@ -7,7 +8,8 @@ from PyQt5.QtCore import Qt
 
 window_dict = {
     "Network Scanner": ScapyNetworkScannerWidget,
-    "Network List": ScapyNetworkListWidget
+    "Network List": ScapyNetworkListWidget,
+    "Spoofer" : ScapySpooferWidget
 }
 
 class ScapyWindowsManager():
